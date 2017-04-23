@@ -17,6 +17,12 @@ Minimal, nothing to get in the way of just reading.
 
 - iCloud Keychain is encrypted on the device: https://support.apple.com/en-us/HT202303
 
+# How it looks
+
+![showcase](https://cloud.githubusercontent.com/assets/1239616/25312507/0307daf6-2813-11e7-9f19-b11f2999244c.png)
+
+[You can see here in more detail](https://github.com/BrunoBernardino/PrivateReader-iOS/issues/1).
+
 # Development-related
 
 ### Setup:
