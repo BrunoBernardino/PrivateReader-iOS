@@ -44,8 +44,8 @@ const ALLOWED_HTML_TAGS = [
 export const stripTags = (input, allowed) => {
   allowed = (((allowed || '') + '').toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join('');
   const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
-  const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
-  return input.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => {
+  const commentsJSAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>|<(?:script)[\s\S]*?<\/script>|<(?:style)[\s\S]*?<\/style>/gi;
+  return input.replace(commentsJSAndPhpTags, '').replace(tags, ($0, $1) => {
     return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
   });
 };
@@ -150,8 +150,8 @@ const articles = {
       <style>
         body { font-family: "Helvetica Neue", Helvetica, sans-serif; }
         img { max-width: ${maxWidth}px; height: auto; }
-        .pr-articleImg { margin: 10px auto; }
-        .pr-articleBody.abertoatedemadrugada-com img { margin: 10px 0 10px -13px; }
+        .pr-articleImg { margin: 10px auto !important; }
+        .pr-articleBody.abertoatedemadrugada-com img { margin: 10px 0 10px -13px !important; }
       </style>
       <meta name="viewport" content="width=device-width, initial-scale=1">
     `);
