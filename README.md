@@ -2,7 +2,7 @@
 
 It's an RSS Feed + Read Later service integrated into a single app, focused on privacy.
 
-It's end-to-end encrypted, using iCloud for sync (of the encrypted data).
+It's end-to-end encrypted, using iCloud Keychain and PouchDB for sync (of the encrypted data).
 
 Minimal, nothing to get in the way of just reading.
 
@@ -35,11 +35,13 @@ $ react-native run-ios --simulator "iPhone 6s"
 
 ### Important TODOs:
 
-- Make sure duplicate URLs are impossible to add to saved and archive (with code to check on JS, if necessary)
-- Work on TODOs inside `ios/PrivateReader/RCTDataManager.m`
+- Change DB from Core Data & Native Components to PouchDB and use https://github.com/calvinmetcalf/crypto-pouch. For Keychain saving use https://github.com/oblador/react-native-keychain
+- Allow setting PouchDB Server URL in Settings
+- Allow synchronizing with remote PouchDB
 
 ### TODOs for a potential Launch:
 
+- Make sure duplicate URLs are impossible to add to saved and archive (with code to check on JS, if necessary)
 - Work on something for loadings
 - Make importing/exporting feeds/articles really work (`utils/data.js`)
 - Improve setup screen on `index.ios.js` (explain/show button for importing feeds - also explain long press to add to save for later)
@@ -51,5 +53,4 @@ $ react-native run-ios --simulator "iPhone 6s"
 - Add swipe left to delete feed (on list) - potentially use https://js.coach/react-native/react-native-swipe-list-view
 - Add swipe left to delete article (on list)
 - Add swipe right to save/archive article (on list)
-- Add pull to refresh
 - When pulling up (scrolling for articles), at the bottom, show option to mark all as read by dragging a little bit more

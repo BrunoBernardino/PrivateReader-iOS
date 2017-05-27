@@ -6,6 +6,7 @@ import {
   View,
   ListView,
   Button,
+  RefreshControl,
 } from 'react-native';
 import Toast from 'react-native-easy-toast';
 import { connect } from 'react-redux';
@@ -19,6 +20,7 @@ class NewTab extends Component {
     super(props);
 
     this.state = {
+      refreshing: true,
       showArticleModal: false,
       openArticle: {
         id: 0,
@@ -31,7 +33,23 @@ class NewTab extends Component {
   }
 
   componentDidMount() {
-    this.props.onLoad();
+    this.props.onLoad(() => {
+      this.setState({
+        refreshing: false,
+      });
+    });
+  }
+
+  onRefresh() {
+    this.setState({
+      refreshing: true,
+    });
+
+    this.props.onLoad(() => {
+      this.setState({
+        refreshing: false,
+      });
+    });
   }
 
   saveArticle(article) {
@@ -92,6 +110,13 @@ class NewTab extends Component {
           enableEmptySections={true}
           dataSource={dataSource}
           renderRow={articles.renderArticleRow.bind(this)}
+          refreshControl={
+            <RefreshControl
+              tintColor="#222222"
+              refreshing={this.state.refreshing}
+              onRefresh={this.onRefresh.bind(this)}
+            />
+          }
         />
         <View style={styles.actionButtons}>
           <View style={styles.markAsReadActionButton}>
@@ -100,14 +125,6 @@ class NewTab extends Component {
               title="Mark all above as Read"
               color="#FFFFFF"
               accessibilityLabel="Mark all articles above as Read"
-            />
-          </View>
-          <View style={styles.loadMoreActionButton}>
-            <Button
-              onPress={this.props.onLoad}
-              title="Load more"
-              color="#FFFFFF"
-              accessibilityLabel="Load more articles"
             />
           </View>
         </View>
@@ -137,13 +154,7 @@ const styles = StyleSheet.create({
   },
   markAsReadActionButton: {
     backgroundColor: '#000000',
-    flex: 0.7,
-    marginRight: 10,
-    marginBottom: 60,
-  },
-  loadMoreActionButton: {
-    backgroundColor: '#333333',
-    flex: 0.3,
+    flex: 1,
     marginBottom: 60,
   },
   toast: {
@@ -184,8 +195,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onLoad: () => {
-      dispatch(actions.fetchRSSFeeds(true)); // Also fetches articles
+    onLoad: (callback) => {
+      dispatch(actions.fetchRSSFeeds(true, callback)); // Also fetches articles
     },
     markArticleAsLatestRead: (articleId, feedURL) => {
       data.markArticleAsRead(articleId, feedURL, () => dispatch(actions.fetchArticles()));
