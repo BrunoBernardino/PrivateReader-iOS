@@ -1,21 +1,25 @@
 import data from './utils/data';
 
 const actions = {
-  fetchRSSFeeds: (loadArticles) => {
+  fetchRSSFeeds: (loadArticles, callback) => {
     return (dispatch) => {
       dispatch({ type: 'LOAD_FEEDS' });
       return data.reloadRSSFeeds()
         .then((feeds) => {
           dispatch({ type: 'LOAD_FEEDS_DONE', feeds });
           if (loadArticles) {
-            dispatch(actions.fetchArticles());
+            dispatch(actions.fetchArticles(callback));
+          } else {
+            if (callback) {
+              callback();
+            }
           }
         })
         .catch(dispatch({ type: 'LOAD_FEEDS_FAIL' }));
     };
   },
 
-  fetchArticles: () => {
+  fetchArticles: (callback) => {
     return (dispatch, getState) => {
       dispatch({ type: 'LOAD_ARTICLES' });
 
@@ -24,6 +28,9 @@ const actions = {
       return data.reloadArticles(rssFeeds)
         .then((articles) => {
           dispatch({ type: 'LOAD_ARTICLES_DONE', articles });
+          if (callback) {
+            callback();
+          }
         })
         .catch(dispatch({ type: 'LOAD_ARTICLES_FAIL' }));
     };

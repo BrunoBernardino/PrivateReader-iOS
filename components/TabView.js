@@ -35,23 +35,13 @@ export default class TabView extends Component {
         unselectedTintColor="gray"
       >
         <TabBarIOS.Item
-          title="New"
-          icon={assets.new.regular}
-          selectedIcon={assets.new.selected}
-          selected={this.state.tabShowing === 'new'}
-          onPress={this.onTabChange.bind(this, 'new')}
+          title="Settings"
+          icon={assets.settings.regular}
+          selectedIcon={assets.settings.selected}
+          selected={this.state.tabShowing === 'settings'}
+          onPress={this.onTabChange.bind(this, 'settings')}
         >
-          <NewTab />
-        </TabBarIOS.Item>
-
-        <TabBarIOS.Item
-          title="Later"
-          icon={assets.later.regular}
-          selectedIcon={assets.later.selected}
-          selected={this.state.tabShowing === 'later'}
-          onPress={this.onTabChange.bind(this, 'later')}
-        >
-          <LaterTab />
+          <SettingsTab />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -65,13 +55,23 @@ export default class TabView extends Component {
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
-          title="Settings"
-          icon={assets.settings.regular}
-          selectedIcon={assets.settings.selected}
-          selected={this.state.tabShowing === 'settings'}
-          onPress={this.onTabChange.bind(this, 'settings')}
+          title="Later"
+          icon={assets.later.regular}
+          selectedIcon={assets.later.selected}
+          selected={this.state.tabShowing === 'later'}
+          onPress={this.onTabChange.bind(this, 'later')}
         >
-          <SettingsTab />
+          <LaterTab />
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+          title="New"
+          icon={assets.new.regular}
+          selectedIcon={assets.new.selected}
+          selected={this.state.tabShowing === 'new'}
+          onPress={this.onTabChange.bind(this, 'new')}
+        >
+          <NewTab />
         </TabBarIOS.Item>
       </TabBarIOS>
     );
