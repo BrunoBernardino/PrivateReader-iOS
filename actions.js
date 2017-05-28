@@ -10,7 +10,7 @@ const actions = {
           if (loadArticles) {
             dispatch(actions.fetchArticles(callback));
           } else {
-            if (callback) {
+            if (callback && typeof callback === 'function') {
               callback();
             }
           }
@@ -28,7 +28,7 @@ const actions = {
       return data.reloadArticles(rssFeeds)
         .then((articles) => {
           dispatch({ type: 'LOAD_ARTICLES_DONE', articles });
-          if (callback) {
+          if (callback && typeof callback === 'function') {
             callback();
           }
         })

@@ -74,7 +74,10 @@ const data = {
   hasSetup: () => (hasSetup),
 
   markArticleAsRead: (articleId, feedURL, callback) => {
-    DataManager.markArticleAsRead(articleId, feedURL, callback);
+    DataManager.markArticleAsRead(articleId, feedURL, () => {
+      // This is triggered too quickly
+      setTimeout(callback, 500);
+    });
   },
 
   addSavedArticle: (article, callback) => {
