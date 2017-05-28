@@ -40,6 +40,10 @@ class NewTab extends Component {
     });
   }
 
+  componentWillReceiveProps() {
+    this.onRefresh();
+  }
+
   onRefresh() {
     this.setState({
       refreshing: true,
@@ -103,6 +107,11 @@ class NewTab extends Component {
 
     const dataSource = ds.cloneWithRows(this.props.unreadArticles);
 
+    const dataLength = this.props.unreadArticles.length;
+
+    const buttonAction = dataLength ? this.props.onMarkAllReadPress : this.props.onLoad;
+    const buttonLabel = dataLength ? 'Mark all articles above as Read' : (this.state.refreshing ? 'Loading...' : 'Load articles');
+
     return (
       <View style={styles.container}>
         <ListView
@@ -121,10 +130,10 @@ class NewTab extends Component {
         <View style={styles.actionButtons}>
           <View style={styles.markAsReadActionButton}>
             <Button
-              onPress={this.props.onMarkAllReadPress}
-              title="Mark all above as Read"
+              onPress={buttonAction}
+              title={buttonLabel}
               color="#FFFFFF"
-              accessibilityLabel="Mark all articles above as Read"
+              accessibilityLabel={buttonLabel}
             />
           </View>
         </View>
@@ -168,7 +177,6 @@ const styles = StyleSheet.create({
 
 NewTab.propTypes = {
   onLoad: React.PropTypes.func.isRequired,
-  markArticleAsLatestRead: React.PropTypes.func.isRequired,
   onMarkAllReadPress: React.PropTypes.func.isRequired,
   saveArticle: React.PropTypes.func.isRequired,
   unreadArticles: React.PropTypes.arrayOf(
@@ -197,9 +205,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onLoad: (callback) => {
       dispatch(actions.fetchRSSFeeds(true, callback)); // Also fetches articles
-    },
-    markArticleAsLatestRead: (articleId, feedURL) => {
-      data.markArticleAsRead(articleId, feedURL, () => dispatch(actions.fetchArticles()));
     },
     onMarkAllReadPress: () => {
       dispatch((dispatch, getState) => {
