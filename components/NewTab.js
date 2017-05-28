@@ -40,9 +40,9 @@ class NewTab extends Component {
     });
   }
 
-  componentWillReceiveProps() {
+  /*componentWillReceiveProps() {
     this.onRefresh();
-  }
+  }*/
 
   onRefresh() {
     this.setState({
@@ -109,7 +109,7 @@ class NewTab extends Component {
 
     const dataLength = this.props.unreadArticles.length;
 
-    const buttonAction = dataLength ? this.props.onMarkAllReadPress : this.props.onLoad;
+    const buttonAction = dataLength ? this.props.onMarkAllReadPress : this.onRefresh.bind(this);
     const buttonLabel = dataLength ? 'Mark all articles above as Read' : (this.state.refreshing ? 'Loading...' : 'Load articles');
 
     return (
